@@ -323,7 +323,11 @@ func (va *ValidationAuthorityImpl) fetchHTTP(ctx context.Context, identifier cor
 	host := identifier.Value
 	scheme := "http"
 	port := va.httpPort
+
+    fmt.Printf("In validation challenge")
+
 	if useTLS {
+        fmt.Printf("Using HTTPS for validation")
 		scheme = "https"
 		port = va.httpsPort
 	}
@@ -583,6 +587,11 @@ func (va *ValidationAuthorityImpl) getTLSSNICerts(
 	zName string,
 ) ([]*x509.Certificate, *probs.ProblemDetails) {
 	va.log.Info(fmt.Sprintf("%s [%s] Attempting to validate for %s %s", challenge.Type, identifier, hostPort, zName))
+
+    va.log.Info(fmt.Sprintf("HERE IN THIS ISH\n"))
+    va.log.Info(fmt.Sprintf("This is the znam [%s] this the hostport [%s]!\n", zName, hostPort))
+    va.log.Info(fmt.Sprintf("-------\n"))
+
 	conn, err := tlsDial(ctx, hostPort, zName)
 	if err != nil {
 		va.log.Info(fmt.Sprintf("%s connection failure for %s. err=[%#v] errStr=[%s]", challenge.Type, identifier, err, err))

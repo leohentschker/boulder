@@ -7,7 +7,7 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"os"
+	// "os"
 	"strings"
 	"sync"
 	"time"
@@ -83,10 +83,10 @@ func (ts *testSrv) dnsHandler(w dns.ResponseWriter, r *dns.Msg) {
 	// However, in some situations (for instance Docker), it's useful to return a
 	// different hardcoded host. You can do so by setting the FAKE_DNS environment
 	// variable.
-	fakeDNS := os.Getenv("FAKE_DNS")
-	if fakeDNS == "" {
-		fakeDNS = "127.0.0.1"
-	}
+	// fakeDNS := os.Getenv("FAKE_DNS")
+	// if fakeDNS == "" {
+	// 	fakeDNS = "127.0.0.1"
+	// }
 	for _, q := range r.Question {
 		fmt.Printf("dns-srv: Query -- [%s] %s\n", q.Name, dns.TypeToString[q.Qtype])
 		switch q.Qtype {
@@ -98,7 +98,13 @@ func (ts *testSrv) dnsHandler(w dns.ResponseWriter, r *dns.Msg) {
 				Class:  dns.ClassINET,
 				Ttl:    0,
 			}
-			record.A = net.ParseIP(fakeDNS)
+            lookedUp, err := net.LookupIP(q.Name)
+            if err != nil {
+                log.Fatal(err)
+            }
+            fmt.Printf("THIS IS LOOKED UP [%s]", lookedUp[0])
+            record.A = lookedUp[0]
+			// record.A = net.ParseIP(fakeDNS)
 
 			m.Answer = append(m.Answer, record)
 		case dns.TypeMX:
