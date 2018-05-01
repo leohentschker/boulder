@@ -17,7 +17,7 @@ Make sure you have a local copy of Boulder in your `$GOPATH`, and that you are
 in that directory:
 
     export GOPATH=~/gopath
-    git clone https://github.com/letsencrypt/boulder/ $GOPATH/src/github.com/letsencrypt/boulder
+    git clone https://github.com/leohentschker/boulder/ $GOPATH/src/github.com/letsencrypt/boulder
     cd $GOPATH/src/github.com/letsencrypt/boulder
 
 Additionally, make sure you have Docker Engine 1.13.0+ and Docker Compose
